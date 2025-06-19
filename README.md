@@ -1,67 +1,112 @@
-# Payload Blank Template
+# Lexical Task: Payload CMS v3 Project
 
-This template comes configured with the bare minimum to get started on anything you need.
+A custom implementation of Payload CMS v3 featuring a rich text editor powered by Lexical.
 
-## Quick start
+## Table of Contents
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Local Setup](#local-setup)
+- [Running the Project](#running-the-project)
+  - [Standard Mode](#standard-mode)
+  - [Docker Mode](#docker-mode)
+- [Customizing the Editor](#customizing-the-editor)
 
-## Quick Start - local setup
 
-To spin up this template locally, follow these steps:
+## Project Overview
 
-### Clone
+This project is a boilerplate for building powerful content-driven applications using Payload CMS. It comes pre-configured with a basic setup, including user authentication, media uploads, and a posts collection, all managed through Payload's flexible admin UI. The core of this project is the integration with the Lexical rich text editor, providing a modern and extensible writing experience.
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+## Features
 
-### Development
+- **Payload CMS v3**: The latest version of the headless CMS built with TypeScript.
+- **Next.js 15**: A React framework for production-grade applications.
+- **Lexical Rich Text Editor**: A highly extensible rich text editor from Meta.
+- **MongoDB Integration**: Uses Mongoose adapter for database connectivity.
+- **Pre-configured Collections**: Includes `Users`, `Media`, and `Posts` collections out of the box.
+- **Docker Support**: Comes with a `docker-compose.yml` for easy local development environment setup.
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URI` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+## Project Structure
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+The main application code resides in the `src/` directory:
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+```
+src/
+├── app/              # Next.js App Router files, including Payload admin UI
+├── collections/      # Payload CMS collection definitions (Users, Posts, etc.)
+├── lexical/          # Customizations for the Lexical editor (nodes, plugins, features)
+├── payload-types.ts  # Auto-generated TypeScript types for your Payload config
+└── payload.config.ts # The main Payload CMS configuration file
+```
 
-#### Docker (Optional)
+## Getting Started
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+### Prerequisites
 
-To do so, follow these steps:
+- [Node.js](https://nodejs.org/en/) (v18.20.2 or >=20.9.0)
+- [pnpm](https://pnpm.io/installation)
+- A [MongoDB](https://www.mongodb.com/try/download/community) database instance (or [Docker](https://www.docker.com/products/docker-desktop/))
 
-- Modify the `MONGODB_URI` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URI` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+### Local Setup
 
-## How it works
+1.  **Clone the repository:**
+    ```bash
+    git clone <your-repo-url>
+    cd lexical-task
+    ```
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+2.  **Set up environment variables:**
+    Copy the example `.env` file.
+    ```bash
+    cp .env.example .env
+    ```
+    Open the `.env` file and add your MongoDB connection string:
+    ```
+    MONGODB_URI=mongodb://127.0.0.1/<db_name>
+    ```
 
-### Collections
+## Running the Project
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+You can run this project with a local Node.js environment or using Docker.
 
-- #### Users (Authentication)
+### Standard Mode
 
-  Users are auth-enabled collections that have access to the admin panel.
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+2.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
 
-- #### Media
+3.  **Access the application:**
+    -   Admin Panel: [http://localhost:3000/admin](http://localhost:3000/admin)
+    -   Frontend: [http://localhost:3000](http://localhost:3000)
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+    Follow the on-screen instructions to create your first admin user.
 
-### Docker
+### Docker Mode
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
+The provided `docker-compose.yml` file will spin up a MongoDB service for you.
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+1.  Ensure your `.env` file's `MONGODB_URI` points to the Docker service:
+    `MONGODB_URI=mongodb://127.0.0.1/<db_name>` (The default is usually fine).
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
+2.  **Start the services:**
+    ```bash
+    docker-compose up -d
+    ```
 
-## Questions
+3.  **Run the project** by following the steps in [Standard Mode](#standard-mode). The application will connect to the MongoDB instance running in Docker.
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+## Customizing the Editor
+
+The Lexical editor can be extended with custom features. The configuration lives within `src/lexical/`. This is where you would add:
+-   **Nodes**: Custom elements for the editor (e.g., `src/lexical/nodes/`).
+-   **Plugins**: Custom behavior and logic (e.g., `src/lexical/plugins/`).
+-   **Features**: Bundles of nodes, plugins, and toolbar buttons that can be added to the editor via `src/lexical/config.ts`.
