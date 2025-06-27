@@ -2,6 +2,10 @@
 
 A custom implementation of Payload CMS v3 featuring a rich text editor powered by Lexical.
 
+## Loom Demo
+
+Watch a short demo of the script in action: [Loom Video Link](https://www.loom.com/share/f049250526e24167a08c7959e1fbb295?sid=9b4fb8b2-b677-4ff5-a098-a7b7074c94ba)
+
 ## Table of Contents
 
 - [Project Overview](#project-overview)
